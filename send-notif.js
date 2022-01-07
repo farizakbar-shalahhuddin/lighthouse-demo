@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 
 dotenv.config({ path: '.env' });
-const lhciResult = require('./.lighthouseci/links.json');
+// const lhciResult = require('./.lighthouseci/links.json');
 
 // const url = process.env.URL_FEB_API;
 // console.log(url);
@@ -15,10 +15,10 @@ const client = new twilio(accountSid, authToken);
 // getting link from lhci result folder
 let lhciLink = '';
  //eslint-disable-next-line
-for (l in lhciResult) {
-  //eslint-disable-next-line
-  lhciLink = lhciResult[l];
-}
+// for (l in lhciResult) {
+//   //eslint-disable-next-line
+//   lhciLink = lhciResult[l];
+// }
 client.messages
   .create({
     // eslint-disable-next-line
