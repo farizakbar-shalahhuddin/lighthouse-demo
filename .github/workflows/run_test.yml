@@ -23,4 +23,23 @@ jobs:
         run: lhci autorun
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.GB_TOKEN }}
-      
+  Get_notified:
+    needs: [Lighthouse_test]   
+    if: always() && needs.Lighthouse_test.result == 'failure'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['14.x']
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - name: Send Notifications with SMS
+        run: npm run send-notifications
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
